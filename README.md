@@ -1,8 +1,11 @@
 # gesture-detection-and-it-s-application
 
 TECHNICAL REQUIREMENTS:
+
 -|-----------------------|-
+
  | SOFTWARE REQUIREMENTS |
+
 -|-----------------------|-
 
 1. Operating System    : Windows 7, Windows 8, Windows 10,MacOS ,Linux                        
