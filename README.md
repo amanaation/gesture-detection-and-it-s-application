@@ -1,5 +1,6 @@
-[![PlayingGame using Gesture recognition in python using opencv](/required_images/screenshot.png)](https://www.youtube.com/watch?v=hHlKNSXz7nk&t=4s "PlayingGame using Gesture recognition in python using opencv -- Click on the above image to watch the demo video")
+[![PlayingGame using Gesture recognition in python using opencv](/required_images/screenshot.png)](https://www.youtube.com/watch?v=hHlKNSXz7nk&t=4s "PlayingGame using Gesture recognition in python using opencv")
 
+ Click on the above image to watch the demo video
 
 TECHNICAL REQUIREMENTS
 
