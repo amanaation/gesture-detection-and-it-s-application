@@ -1,4 +1,7 @@
-2.4 TECHNICAL REQUIREMENTS
+[![PlayingGame using Gesture recognition in python using opencv](http://img.youtube.com/vi/hHlKNSXz7nk&t=4s/0.jpg)](https://www.youtube.com/watch?v=hHlKNSXz7nk&t=4s "PlayingGame using Gesture recognition in python using opencv")
+
+
+TECHNICAL REQUIREMENTS
 
 SOFTWARE
 
