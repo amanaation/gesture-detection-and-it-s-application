@@ -38,8 +38,8 @@ def decl():
 
         #conn.execute('''CREATE TABLE highscore(
         #   ID INTEGER PRIMARY KEY AUTOINCREMENT,
-        #   NAME           TEXT      NOT NULL,
-        #   score            INT       NOT NULL);''')
+        #  NAME           TEXT      NOT NULL,
+        #  score            INT       NOT NULL);''')
 
 
         res = False
@@ -76,7 +76,7 @@ cap = cv2.VideoCapture(0)
 
 #---------------------------------------------MENU LOGIC------------------------------------------------------------------------------
 
-#cgonn.execute('''CREATE TABLE highscore(
+#conn.execute('''CREATE TABLE highscore(
 #   ID INTEGER PRIMARY KEY AUTOINCREMENT,
 #   NAME           TEXT      NOT NULL,
 #   score            INT       NOT NULL);''')
@@ -108,8 +108,6 @@ pygame.draw.line(s1,(255,255,255),(5,0),(5,600),3)
 #-----------------------------------------------------
 
 
-
-
 def collide(x1, x2, y1, y2, w1, w2, h1, h2):
 	if x1+w1>x2 and x1<x2+w2 and y1+h1>y2 and y1<y2+h2:return True
 	else:return False
@@ -127,8 +125,8 @@ def die(screen, score):
         
         r2 = conn.execute("select score from highscore order by score desc limit 10")
         sc_list = list(r2.fetchall())
-        ##print(score,int(min(sc_list[9])),int(min(sc_list[0])),sc_list)
-        if(score >= int(min(sc_list[9]))):
+        print(" sc list : ", sc_list)
+        if sc_list and score >= int(min(sc_list[9])):
                 enter_name()
         conn.commit()
         cap.release()
@@ -183,7 +181,7 @@ def game():
         #SNAKE'S EXECUTION
         #---------------------------------------------------------------------------------------
         #if(start == True):
-        clock1.tick(10)
+        clock1.tick(1)
         for e in pygame.event.get():
             if e.type == QUIT:
                 sys.exit(0)
@@ -358,14 +356,9 @@ def highscore():
         global conn
         global root,w
 
-        #root.pack_forget()
         r = conn.execute('select * from highscore order by score desc limit 10')
 
-
-
         r1 = list(r.fetchall())
-
-        ##print(r1)
 
         w.create_rectangle(0, 0, 1300, 900, fill="black")
         
@@ -424,16 +417,16 @@ def help_func():
 
         w = Canvas(root,width=1300,height=900)
         w.pack()
-        img = PhotoImage(file="bg.png")      
+        img = PhotoImage(file="required_images/bg.png")      
         w.create_image(0,0, anchor=NW, image=img)  
         w.create_rectangle(0, 0, 1300, 900, fill="#ffffff")
         l5 = Label(root,text = 'NAVIGATION',bd=3,relief='solid',padx=400,pady=70,font=("Arial",70),width=9,background='#000000',foreground='red')
         l5.place(x = 0,y=0)
         a1 = Label(root,text = '1. SHOW 2 FINGERS TO GO UP',bd=3,relief='solid',padx=600,pady=30,font=("Arial",20),width=9,background='#000000',foreground='red')
         a1.place(x = 0,y=240)
-        a2 = Label(root,text = '1. SHOW 3 FINGERS TO GO DOWN',bd=3,relief='solid',padx=600,pady=30,font=("Arial",20),width=9,background='#000000',foreground='red')
+        a2 = Label(root,text = '2. SHOW 3 FINGERS TO GO DOWN',bd=3,relief='solid',padx=600,pady=30,font=("Arial",20),width=9,background='#000000',foreground='red')
         a2.place(x = 0,y=320)
-        a3 = Label(root,text = '1. SHOW 4 FINGERS TO GO LEFT',bd=3,relief='solid',padx=600,pady=30,font=("Arial",20),width=9,background='#000000',foreground='red')
+        a3 = Label(root,text = '3. SHOW 4 FINGERS TO GO LEFT',bd=3,relief='solid',padx=600,pady=30,font=("Arial",20),width=9,background='#000000',foreground='red')
         a3.place(x = 0,y=400)
         a4 = Label(root,text = '4. SHOW 5 FINGERS TO GO RIGGHT',bd=3,relief='solid',padx=600,pady=30,font=("Arial",20),width=9,background='#000000',foreground='red')
         a4.place(x = 0,y=480)
@@ -472,7 +465,7 @@ def menu():
 
         #w.create_rectangle(0, 0, 1300, 900, fill="#ffffff")
         
-        img = PhotoImage(file="bg.png")      
+        img = PhotoImage(file="required_images/bg.png")      
         w.create_image(0,0, anchor=NW, image=img)  
         #w.create_rectangle(0, 0, 1300, 900, fill="#ffffff")
         play1 = Button(root,text = 'PLAY',fg='black',padx = 80, pady = 20,command=game,background='#000000',foreground='red',bd=10,relief='raised')
@@ -718,10 +711,11 @@ def main_menu():
 
         w = Canvas(root,width=1300,height=900)
         w.pack()
+        print(" -------------- ")
 
     w.create_rectangle(0, 0, 1300, 900, fill="black")
-    img = PhotoImage(file="bg.png")      
-    #w.create_image(0,0, anchor=NW, image=img)
+    img = PhotoImage(file="required_images/bg.png")      
+    w.create_image(0,0, anchor=NW, image=img)
     cal = Button(root,text = 'CALCULATOR',fg='black',command = calc,padx = 80, pady = 20,background='#000000',foreground='red',bd=10,relief='groove')
     cal.place(x=600,y=200)
         
@@ -729,18 +723,22 @@ def main_menu():
     ga.place(x=600,y=300)
     ex = Button(root,text = 'EXIT',fg='black',padx = 100, pady = 20,command = exit_func,background='#000000',foreground='red',bd=10,relief='groove')
     ex.place(x=600,y=400)
+    # import time
+    # time.sleep(50)
+    
 
 
-
-root = Tk()
-root.geometry('1300x900')
-w = Canvas(root,width=1300,height=900)
-w.pack()
-
-#root.mainloop()
-
-decl()
-main_menu()
+if __name__ == "__main__":
+    root = Tk()
+    root.geometry('1300x900')
+    w = Canvas(root,width=1300,height=900)
+    w.pack()
 
 
-conn.commit()
+    decl()
+    print("DEcl is completed")
+    main_menu()
+    print("main menu completed")
+    root.mainloop()
+
+    conn.commit()
