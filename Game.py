@@ -7,13 +7,15 @@ import sqlite3
 from tkinter import *
 from ctypes import windll
 import time
+import win32gui
+import win32con
 
 
 def play():
     cap = cv2.VideoCapture('GAME.mp4')
-    while (cap.isOpened()):
+    while cap.isOpened():
         ret, frame = cap.read()
-        if ret == True:
+        if ret:
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             cv2.imshow('frame', gray)
             # & 0xFF is required for a 64-bit system
@@ -54,7 +56,7 @@ def decl():
     applepos1 = (random.randint(0, 590), random.randint(0, 590))
     pygame.init()
     pygame.Color('black')
-    s1 = pygame.display.set_mode((10, 10))
+    s1 = pygame.display.set_mode((600, 600))
     appleimage1 = pygame.Surface((10, 10))
     appleimage1.fill((0, 255, 0))
     img1 = pygame.Surface((20, 20))
@@ -173,15 +175,15 @@ def game():
     global start, xs1, ys1, dirs1, score1, applepos1, s1, appleimage1, img1, f1, clock1, res
     pygame.init()
     pygame.display.set_caption('Snake')
-    SetWindowPos(pygame.display.get_wm_info()['window'], -1, 0, 10, 0, 0, 0x0001)
+    win32gui.SetWindowPos(pygame.display.get_wm_info()['window'], win32con.HWND_TOPMOST, 0,0,0,0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
 
-    while (cap.isOpened()):
+    while cap.isOpened():
         # s1.fill((0,0,0))
 
         # SNAKE'S EXECUTION
         # ---------------------------------------------------------------------------------------
         # if(start == True):
-        clock1.tick(1)
+        clock1.tick(2)
         for e in pygame.event.get():
             if e.type == QUIT:
                 sys.exit(0)
@@ -315,7 +317,6 @@ def game():
         # define actions required
         if count_defects == 1 and dirs1 != 0:
             dirs1 = 2
-            ##print('!!!!!!!!!1')        
             start = True
         elif count_defects == 2 and dirs1 != 2:
             dirs1 = 0
@@ -325,8 +326,8 @@ def game():
             dirs1 = 1
 
         all_img = np.hstack((drawing, crop_img))
-        cv2.imshow('Contours', all_img)
-        cv2.imshow('Thresholded', thresh1)
+        # cv2.imshow('Contours', all_img)
+        # cv2.imshow('Thresholded', thresh1)
 
         # show appropriate images in windows
         cv2.imshow('Gesture', img)
@@ -543,9 +544,9 @@ def calc():
                                    cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
         # show thresholded image
-        cv2.imshow('Thresholded', thresh1)
+        # cv2.imshow('Thresholded', thresh1)
 
-        cv2.imshow('Thresholded', thresh2)
+        # cv2.imshow('Thresholded', thresh2)
 
         # check OpenCV version to avoid unpacking error
         (version, _, _) = cv2.__version__.split('.')
