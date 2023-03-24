@@ -7,8 +7,10 @@ import sqlite3
 from tkinter import *
 from ctypes import windll
 import time
-import win32gui
-import win32con
+
+
+# import win32gui
+# import win32con
 
 
 def play():
@@ -141,10 +143,10 @@ def die(screen, score):
 
 
 def get_name():
-    global string
+    global string, score1, score2
     string = e.get()
     root1.destroy()
-    conn.execute("insert into highscore(name,score) values (?,?)", (string, 45))
+    conn.execute("insert into highscore(name,score) values (?,?)", (string, score1))
 
     conn.commit()
     return string
@@ -175,7 +177,8 @@ def game():
     global start, xs1, ys1, dirs1, score1, applepos1, s1, appleimage1, img1, f1, clock1, res
     pygame.init()
     pygame.display.set_caption('Snake')
-    win32gui.SetWindowPos(pygame.display.get_wm_info()['window'], win32con.HWND_TOPMOST, 0,0,0,0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
+    win32gui.SetWindowPos(pygame.display.get_wm_info()['window'], win32con.HWND_TOPMOST, 0, 0, 0, 0,
+                          win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
 
     while cap.isOpened():
         # s1.fill((0,0,0))
@@ -360,14 +363,16 @@ def highscore():
     global conn
     global root, w
 
-    records = conn.execute('select * from highscore order by score desc limit 8')
+    records = conn.execute('select * from highscore order by score desc limit 7')
 
     records = list(records.fetchall())
+    # for w in root.winfo_children():
+    #     w.destroy()
+    #
+    # w = Canvas(root, width=1300, height=900)
+    # w.pack()
 
-    w.create_rectangle(0, 0, 1300, 900, fill="black")
-
-    # img = PhotoImage(file="bg.png")
-    # w.create_image(0, 0, anchor=NW, image=img)
+    # w.create_rectangle(0, 0, 1300, 900, fill="black")
 
     l1 = Label(root, text='RANK', bd=3, relief='solid', padx=100, pady=30, font=("Arial", 20), background='#000000',
                foreground='red')
@@ -385,15 +390,15 @@ def highscore():
 
     c = 1
     for record in records:
-        l3 = Label(root, text=c, bd=3, relief='solid', padx=130, pady=10, font=("Arial", 20), background='#000000',
+        l3 = Label(root, text=c, bd=3, relief='solid', padx=130, pady=10, font=("Arial", 28), background='#000000',
                    foreground='red')
         l3.place(x=00, y=y1)
 
-        l4 = Label(root, text=record[1], bd=3, relief='solid', padx=180, pady=10, font=("Arial", 20), width=20,
+        l4 = Label(root, text=record[1], bd=3, relief='solid', padx=180, pady=10, font=("Arial", 28), width=20,
                    background='#000000', foreground='red')
         l4.place(x=270, y=y1)
 
-        l5 = Label(root, text=record[2], bd=3, relief='solid', padx=155, pady=10, font=("Arial", 20), width=9,
+        l5 = Label(root, text=record[2], bd=3, relief='solid', padx=155, pady=10, font=("Arial", 28), width=9,
                    background='#000000', foreground='red')
         l5.place(x=840, y=y1)
 
@@ -401,7 +406,7 @@ def highscore():
 
         c += 1
 
-    b2 = Button(root, text='BACK', fg='red', padx=80, pady=20, command=menu, background='#000000', foreground='red',
+    b2 = Button(root, text='BACK', fg='red', padx=80, pady=20, command=menu, background='white', foreground='red',
                 bd=0)
     b2.place(x=600, y=950)
 
@@ -464,11 +469,8 @@ def menu():
     w = Canvas(root, width=1300, height=900)
     w.pack()
 
-    # w.create_rectangle(0, 0, 1300, 900, fill="#ffffff")
+    w.create_rectangle(0, 0, 1300, 900, fill="black")
 
-    img = PhotoImage(file="required_images/bg.png")
-    w.create_image(0, 0, anchor=NW, image=img)
-    # w.create_rectangle(0, 0, 1300, 900, fill="#ffffff")
     play1 = Button(root, text='PLAY', fg='black', padx=80, pady=20, command=game, background='#000000',
                    foreground='red', bd=10, relief='raised')
     play1.place(x=600, y=120)
@@ -691,15 +693,15 @@ def main_menu():
     global root, w
     for w in root.winfo_children():
         # if(w != canvas):
-        ##print(type(w))
+        # print(type(w))
         w.destroy()
 
-        w = Canvas(root, width=1300, height=900)
-        w.pack()
+    w = Canvas(root, width=1300, height=900)
+    w.pack()
 
     w.create_rectangle(0, 0, 1300, 900, fill="black")
-    img = PhotoImage(file="required_images/bg.png")
-    w.create_image(0, 0, anchor=NW, image=img)
+    # img = PhotoImage(file="required_images/bg.png")
+    # w.create_image(0, 0, anchor=NW, image=img)
     # cal = Button(root, text='CALCULATOR', fg='black', command=calc, padx=80, pady=20, background='#000000',
     #              foreground='red', bd=10, relief='groove')
     # cal.place(x=600, y=200)
@@ -716,6 +718,7 @@ def main_menu():
 
 if __name__ == "__main__":
     root = Tk()
+    score = 0
     root.geometry('1300x900')
     w = Canvas(root, width=1300, height=900)
     w.pack()
